@@ -1,4 +1,4 @@
-### pada
+### PADA
 A PAthway Dynamics Analyzer using probabilistic approximation techniques
 
 ### About
