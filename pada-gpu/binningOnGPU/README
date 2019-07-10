@@ -1,0 +1,36 @@
+///binning on cpu
+to launch multiple gpus:
+eg. to run egfngf:
+./egfngf 3000000 -gpu 0 -master 3
+where 3000000 is the total number of traces to simulate
+-gpu 0 is the master gpu
+3 indicates how many devices in total to launch
+
+configuration could be done through editting binningOnGPU/config_multigpu.h
+if n gpus to be launched and m total gpus available, if n<m will lauch the first n gpus specified in the config_multigpu.h
+
+/*****************************************************/
+/*              Sample config_multigpu.h             */
+/*****************************************************/
+//how many devices available in total
+#define MAX_GPU 4 
+
+typedef struct{
+	int device; //gpu device id @server; 0 or 1 in our case
+	char server[255]; //server; garuda-0 or garuda-1
+	char path[255]; //where the executable file locates
+}GPUdeviceInfo;
+
+//user name to login to remote server
+static char *USER="username";
+
+static GPUdeviceInfo gpudeviceinfo[MAX_GPU]={
+	//master gpu
+	{0, "garuda-1.ddns.comp.nus.edu.sg"},
+	//local slave gpus
+	{1, "garuda-1.ddns.comp.nus.edu.sg"},
+	//remote slave gpus
+	{1, "garuda-0.ddns.comp.nus.edu.sg", "~/temp"},
+	{0, "garuda-0.ddns.comp.nus.edu.sg", "~/temp"}
+};
+

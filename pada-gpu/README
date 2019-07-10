@@ -1,0 +1,28 @@
+multiGPU --> launches several instances of the kernel on several GPUs
+		- adequate RNG seeds
+		- provides a buffer where kernel return results (either offsets, or tables)
+		- provides a function for writing the result to the buffer (input of tis function is an offset)
+
+kernel ---> uses one of the rungeKutta algorithms from RK folder
+
+The code will use the current host to collect the final results, but may require running on several hosts (to access multiple GPUs)
+This is runtime information, so it should reside in a file read at runtime
+		
+To make the code (result will be deployed in 'bin' folder, file name is model name):
+make MODEL=... METHOD=... ARCH=... REAL=.. RKmethod=...
+
+where: 
+	MODEL = the name of the model file (default egfngf)
+	METHOD = the name of the method folder (default centralized)
+	ARCH = sm_13 / sm_20 to allow running on Tesla and Fermi, or only on Fermi (default sm_20)
+	REAL = float / double (default double)
+	RKmethod = the name of one of the method folders in RK (default RK4)
+	
+To run the code:
+	./code TRACES            # runs the specified number of TRACES on GPU 0 on current machine
+	./code TRACES -gpu N     # runs the specified number of TRACES on GPU N on current machine
+	./code TRACES -master conf_file # runs as master distributing TRACES onto several GPUs as specified in the master file
+	./code TRACES -slave conf_file  # ??? not sure if this is necessary, maybe the second version is sufficient; if the data is collected back through files, it certainly is not necessary
+
+
+

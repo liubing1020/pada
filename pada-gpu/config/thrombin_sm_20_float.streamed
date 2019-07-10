@@ -1,0 +1,4 @@
+#define nrWarps 20
+#define nrAccess 16
+#define fullThreshold 33
+
