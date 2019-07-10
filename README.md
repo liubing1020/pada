@@ -1,4 +1,4 @@
-<img src="./misc/logo.jpg">
+<img src="/misc/logo.jpg">
 
 ### PADA
 A PAthway Dynamics Analyzer using probabilistic approximation techniques
