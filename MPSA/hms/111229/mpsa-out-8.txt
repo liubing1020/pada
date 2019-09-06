@@ -1,0 +1,62 @@
+Sender: LSF System <lsfadmin@atlas4-c76>
+Subject: Job 618637: <hmsMPSA2 8> Exited
+
+Job <hmsMPSA2 8> was submitted from host <atlas6-c01> by user <dcsliubi> in cluster <NUSHPC>.
+Job was executed on host(s) <atlas4-c76>, in queue <linux64>, as user <dcsliubi> in cluster <NUSHPC>.
+</home/svu/dcsliubi> was used as the home directory.
+</home/svu/dcsliubi/pe/MPSA/hms> was used as the working directory.
+Started at Thu Dec 29 21:51:00 2011
+Results reported at Thu Dec 29 21:51:04 2011
+
+Your job looked like:
+
+------------------------------------------------------------
+# LSBATCH: User input
+hmsMPSA2 8
+------------------------------------------------------------
+
+Exited with exit code 127.
+
+Resource usage summary:
+
+    CPU time   :     17.18 sec.
+    Max Memory :         7 MB
+    Max Swap   :       281 MB
+
+    Max Processes  :         7
+    Max Threads    :         7
+
+The output (if any) follows:
+
+/home/svu/dcsliubi/.lsbatch/1325166630.618637: line 8: hmsMPSA2: command not found
+Sender: LSF System <lsfadmin@atlas4-c05>
+Subject: Job 619219: <./hmsMPSA2 8> Exited
+
+Job <./hmsMPSA2 8> was submitted from host <atlas6-c01> by user <dcsliubi> in cluster <NUSHPC>.
+Job was executed on host(s) <atlas4-c05>, in queue <linux64>, as user <dcsliubi> in cluster <NUSHPC>.
+</home/svu/dcsliubi> was used as the home directory.
+</home/svu/dcsliubi/pe/MPSA/hms> was used as the working directory.
+Started at Fri Dec 30 15:22:23 2011
+Results reported at Fri Dec 30 15:22:26 2011
+
+Your job looked like:
+
+------------------------------------------------------------
+# LSBATCH: User input
+./hmsMPSA2 8
+------------------------------------------------------------
+
+Exited with exit code 127.
+
+Resource usage summary:
+
+    CPU time   :    116.13 sec.
+    Max Memory :         9 MB
+    Max Swap   :       528 MB
+
+    Max Processes  :        11
+    Max Threads    :        11
+
+The output (if any) follows:
+
+./hmsMPSA2: error while loading shared libraries: requires glibc 2.5 or later dynamic linker

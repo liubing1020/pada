@@ -1,0 +1,4 @@
+NAME,INIT,LowerBound,UpperBound,BoundNum,BoundSize
+k1,0.1,0,1,5
+k2,0.1,0,1,5
+k3,0.3,0,1,5

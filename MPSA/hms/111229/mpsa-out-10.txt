@@ -1,0 +1,62 @@
+Sender: LSF System <lsfadmin@atlas4-c40>
+Subject: Job 618639: <hmsMPSA2 10> Exited
+
+Job <hmsMPSA2 10> was submitted from host <atlas6-c01> by user <dcsliubi> in cluster <NUSHPC>.
+Job was executed on host(s) <atlas4-c40>, in queue <linux64>, as user <dcsliubi> in cluster <NUSHPC>.
+</home/svu/dcsliubi> was used as the home directory.
+</home/svu/dcsliubi/pe/MPSA/hms> was used as the working directory.
+Started at Thu Dec 29 21:50:54 2011
+Results reported at Thu Dec 29 21:50:58 2011
+
+Your job looked like:
+
+------------------------------------------------------------
+# LSBATCH: User input
+hmsMPSA2 10
+------------------------------------------------------------
+
+Exited with exit code 127.
+
+Resource usage summary:
+
+    CPU time   :     13.97 sec.
+    Max Memory :         8 MB
+    Max Swap   :       423 MB
+
+    Max Processes  :        10
+    Max Threads    :        10
+
+The output (if any) follows:
+
+/home/svu/dcsliubi/.lsbatch/1325166630.618639: line 8: hmsMPSA2: command not found
+Sender: LSF System <lsfadmin@atlas3-c19>
+Subject: Job 619221: <./hmsMPSA2 10> Exited
+
+Job <./hmsMPSA2 10> was submitted from host <atlas6-c01> by user <dcsliubi> in cluster <NUSHPC>.
+Job was executed on host(s) <atlas3-c19>, in queue <linux64>, as user <dcsliubi> in cluster <NUSHPC>.
+</home/svu/dcsliubi> was used as the home directory.
+</home/svu/dcsliubi/pe/MPSA/hms> was used as the working directory.
+Started at Fri Dec 30 15:22:28 2011
+Results reported at Fri Dec 30 15:22:32 2011
+
+Your job looked like:
+
+------------------------------------------------------------
+# LSBATCH: User input
+./hmsMPSA2 10
+------------------------------------------------------------
+
+Exited with exit code 127.
+
+Resource usage summary:
+
+    CPU time   :    127.15 sec.
+    Max Memory :         7 MB
+    Max Swap   :       282 MB
+
+    Max Processes  :         7
+    Max Threads    :         7
+
+The output (if any) follows:
+
+./hmsMPSA2: error while loading shared libraries: requires glibc 2.5 or later dynamic linker

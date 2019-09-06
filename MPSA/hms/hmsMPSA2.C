@@ -1,0 +1,255 @@
+#include <stdio.h>
+#include <math.h>
+#include "/home/svu/dcsliubi/dSFMT-src-2.0/dSFMT.c"
+/* header files and macros for CVODE */
+#include "llnltyps.h"
+#include "cvode.h"
+#include "cvdense.h"
+#include "nvector.h"
+#include "dense.h"
+#define Ith(v,i) N_VIth(v,i-1)
+#define IJth(A,i,j) DENSE_ELEM(A,i-1,j-1)
+
+int NEQ;
+double RTOL, ATOL;
+double T0, T1, Tm;
+double xN;
+double xA;
+double a0;
+double a1;
+double b0;
+double c0;
+double c1;
+double d0;
+double e0;
+double e1;
+double f0;
+double gammaA;
+double gammaN;
+double delta;
+double n;
+double p;
+double result[2][40];
+double data[2][40];
+int tn,xn;
+
+
+double *P[]={&a0,&a1,&b0,&c0,&c1,&d0,&e0,&e1,&f0,&gammaA,&gammaN,&delta,&n,&p,};
+int T[]={10000,20000,30000,40000,50000,60000,70000,80000,90000,100000,110000,120000,130000,140000,150000,160000,170000,180000,190000,200000,210000,220000,230000,240000,250000,260000,270000,280000,290000,300000,310000,320000,330000,340000,350000,360000,370000,380000,390000,400000,};
+int X[]={1,2,};
+
+
+static void difeq(integer N, real t, N_Vector y, N_Vector ydot, void *f_data);
+
+int main(int argc, char *argv[]){
+  int ktest;
+  if(argc>1) ktest=atoi(argv[1]); else {printf("input ktest!\n"); exit(0);}
+  double lb[14];
+  double ub[14];
+  lb[0]=0.0115; ub[0]=1.15;
+  lb[1]=3.8E-8; ub[1]=3.8E-6;
+  lb[2]=1.47E-8; ub[2]=1.47E-6;
+  lb[3]=0.142; ub[3]=14.2;
+  lb[4]=7.3E-8; ub[4]=7.3E-6;
+  lb[5]=2.0E-9; ub[5]=2.0E-7;
+  lb[6]=5.0E-4; ub[6]=0.05;
+  lb[7]=1.1E-9; ub[7]=1.1E-7;
+  lb[8]=1.0E-13; ub[8]=1.0E-11;
+  lb[9]=3.0E-6; ub[9]=3.0E-4;
+  lb[10]=3.6E-5; ub[10]=0.0036;
+  lb[11]=2.0E-6; ub[11]=2.0E-4;
+  lb[12]=0.2; ub[12]=20.0;
+  lb[13]=0.2; ub[13]=20.0;
+  /* set ODE parameters */
+  NEQ = 2;
+  RTOL = 1e-6;
+  ATOL = 1e-6;
+  T0 = 0.0;
+  Tm = 400000;
+  tn=40;
+  xn=2;
+
+
+  xN=1258.925412;
+  xA=3311.311215;
+
+  a0=0.115;
+  a1=3.8E-7;
+  b0=1.47E-7;
+  c0=1.42;
+  c1=7.3E-7;
+  d0=2.0E-8;
+  e0=0.0050;
+  e1=1.1E-8;
+  f0=1.0E-12;
+  gammaA=3.0E-5;
+  gammaN=3.6E-4;
+  delta=2.0E-5;
+  n=2.0;
+  p=2.0;
+
+
+  // load data
+  char *cp;
+  FILE *in;
+  char buffer[256];
+  snprintf(buffer, sizeof(buffer), "/home/svu/dcsliubi/pe/libSRES/hms/hms40points.txt");
+  in = fopen(buffer, "r");
+  //fgets(buffer, sizeof(buffer), in); //header  <---
+  for(int j=0;j<40;j++){
+    int ctr2=0;
+    fgets(buffer, sizeof(buffer), in);
+    cp = (char *)strtok(buffer, "\t"); // time
+    for(int k=0;k<xn;k++){
+      cp = (char *)strtok(NULL, "\t");
+      double tmp = strtod(cp, NULL);
+      data[k][j]=tmp; //printf("%d %d %f\n",j,k,data[k][j]);// <---
+    }
+  }
+
+
+  // output setting
+  FILE *out;
+  snprintf(buffer, sizeof(buffer), "Nk%d.txt",ktest);
+  out=fopen(buffer, "w");
+
+
+
+
+  int sampleNo=50000;
+  dsfmt_t dsfmt;
+  int seed=405;
+  dsfmt_init_gen_rand(&dsfmt,seed);
+
+  double sumsum=0,threshold=200000,freq=0;
+  int colNo=40;
+  int ctr[colNo];
+  for(int i=0;i<colNo;i++) ctr[i]=0;
+
+
+
+  for(int b=0;b<colNo;b++){
+    int validsample=0;
+    for(int i=0;i<sampleNo;i++){
+      a0=lb[0]+dsfmt_genrand_close_open(&dsfmt)*(ub[0]-lb[0]);
+      a1=lb[1]+dsfmt_genrand_close_open(&dsfmt)*(ub[1]-lb[1]);
+      b0=lb[2]+dsfmt_genrand_close_open(&dsfmt)*(ub[2]-lb[2]);
+      c0=lb[3]+dsfmt_genrand_close_open(&dsfmt)*(ub[3]-lb[3]);
+      c1=lb[4]+dsfmt_genrand_close_open(&dsfmt)*(ub[4]-lb[4]);
+      d0=lb[5]+dsfmt_genrand_close_open(&dsfmt)*(ub[5]-lb[5]);
+      e0=lb[6]+dsfmt_genrand_close_open(&dsfmt)*(ub[6]-lb[6]);
+      e1=lb[7]+dsfmt_genrand_close_open(&dsfmt)*(ub[7]-lb[7]);
+      f0=lb[8]+dsfmt_genrand_close_open(&dsfmt)*(ub[8]-lb[8]);
+      gammaA=lb[9]+dsfmt_genrand_close_open(&dsfmt)*(ub[9]-lb[9]);
+      gammaN=lb[10]+dsfmt_genrand_close_open(&dsfmt)*(ub[10]-lb[10]);
+      delta=lb[11]+dsfmt_genrand_close_open(&dsfmt)*(ub[11]-lb[11]);
+      n=lb[12]+dsfmt_genrand_close_open(&dsfmt)*(ub[12]-lb[12]);
+      p=lb[13]+dsfmt_genrand_close_open(&dsfmt)*(ub[13]-lb[13]);
+      (*P[ktest])=lb[ktest]+(b+0.5)*(ub[ktest]-lb[ktest])/(colNo*1.0);
+
+
+      real ropt[OPT_SIZE], reltol, t, tout, ttmp;
+      long int iopt[OPT_SIZE];
+      N_Vector y;
+      real abstol;
+      void *cvode_mem;
+      int iout, flag, fail=0;
+      int i,k,j,l;
+      int t1;
+      double value = 0.0;
+      double sum,err,max,wmax;
+      double w[xn],m[xn];
+
+
+      y=N_VNew(NEQ, NULL);
+      Ith(y,1)=xN;
+      Ith(y,2)=xA;
+
+      reltol = RTOL;
+      abstol = ATOL;
+
+      cvode_mem = CVodeMalloc(NEQ, difeq, T0, y, BDF, NEWTON, SS, &reltol, &abstol, NULL, NULL, FALSE, iopt, ropt, NULL);
+
+      if(cvode_mem == NULL){
+	printf("CVodeMalloc failed.\n");
+	exit(1);
+      }
+      CVDense(cvode_mem, NULL, NULL);
+
+      ttmp=100;
+      for(iout=0;iout<tn;iout++){
+	tout=T[iout];
+	for(;ttmp<=tout;ttmp+=100){
+	  flag = CVode(cvode_mem, ttmp, y, &t, NORMAL);
+	  if (flag != SUCCESS){
+	    printf("CVode failed, flag=%d.\n", flag);
+	    fail=1;break;
+	  }
+	}
+	if(fail==1) break;
+	result[0][iout] = Ith(y,1);
+	result[1][iout] = Ith(y,2);
+	ttmp=tout+100;
+      }
+      N_VFree(y);
+      CVodeFree(cvode_mem);
+      if(fail==0){
+	validsample++;
+	// evaluate
+	t1 = tn;
+	for(l=0,wmax=-1;l<xn;l++){
+	  for(k=0,sum=0.0,max=-1; k<t1; k++){
+	    sum+=data[l][k];
+	  }
+	  w[l]=t1/sum;
+	  if(w[l]>wmax) wmax=w[l];
+	}
+
+	for(l=0;l<xn;l++){
+	  for(k=0,sum=0.0; k<t1; k++){
+	    err=data[l][k]-result[l][k];
+	    sum +=err*err;
+	  }
+	  value+=sum*w[l]; // /wmax;
+	}
+	//printf("%f %e %e\n",value,w[0],w[1]);
+	if(value<threshold){
+	  ctr[b]++;
+	}
+      }
+    }
+    freq=ctr[b]/(validsample*1.0);
+    fprintf(out,"%f\t",freq);
+  }
+  fprintf(out,"\n");
+
+  fclose(out);
+  return 0;
+}
+/* differential equations */
+static void difeq(integer N, real t, N_Vector y, N_Vector ydot, void *f_data){
+
+  real xN, dN;
+  real xA, dA;
+  xN = Ith(y,1);
+  xA = Ith(y,2);
+
+  dN=(a0+a1*pow(xN,n))/(1+b0*pow(xN,n))-delta*xN*(c0+c1*pow(xA,p))/(1+d0*pow(xA,p))-gammaN*xN;
+  dA=(e0+e1*xA*xN)/(1+f0*xA*xN)-gammaA*xA;
+
+  Ith(ydot,1)=dN;
+  Ith(ydot,2)=dA;
+
+  /*
+  real x1, dx1;
+  real x2, dx2;
+  x1 = Ith(y,1);
+  x2 = Ith(y,2);
+  dx1=(k1+k2*pow(x1,k13))/(1+k3*pow(x1,k13))-k12*x1*(k4+k5*pow(x2,k14))/(1+k6*pow(x2,k14))-k11*x1;
+  dx2=(k7+k8*x1*x2)/(1+k9*x1*x2)-k10*x2;
+  Ith(ydot,1)=dx1;
+  Ith(ydot,2)=dx2;
+  */
+
+  return;
+}

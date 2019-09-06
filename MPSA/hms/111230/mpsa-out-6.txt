@@ -1,0 +1,30 @@
+Sender: LSF System <lsfadmin@atlas4-c52>
+Subject: Job 619239: <./hmsMPSA2 6> Done
+
+Job <./hmsMPSA2 6> was submitted from host <atlas3-c01> by user <dcsliubi> in cluster <NUSHPC>.
+Job was executed on host(s) <atlas4-c52>, in queue <linux64>, as user <dcsliubi> in cluster <NUSHPC>.
+</home/svu/dcsliubi> was used as the home directory.
+</home/svu/dcsliubi/pe/MPSA/hms> was used as the working directory.
+Started at Fri Dec 30 15:26:48 2011
+Results reported at Fri Dec 30 16:21:14 2011
+
+Your job looked like:
+
+------------------------------------------------------------
+# LSBATCH: User input
+./hmsMPSA2 6
+------------------------------------------------------------
+
+Successfully completed.
+
+Resource usage summary:
+
+    CPU time   :   3274.80 sec.
+    Max Memory :         7 MB
+    Max Swap   :       376 MB
+
+    Max Processes  :        11
+    Max Threads    :        11
+
+The output (if any) follows:
+

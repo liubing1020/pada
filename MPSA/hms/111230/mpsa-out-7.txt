@@ -1,0 +1,31 @@
+Sender: LSF System <lsfadmin@atlas4-c52>
+Subject: Job 619240: <./hmsMPSA2 7> Exited
+
+Job <./hmsMPSA2 7> was submitted from host <atlas3-c01> by user <dcsliubi> in cluster <NUSHPC>.
+Job was executed on host(s) <atlas4-c52>, in queue <linux64>, as user <dcsliubi> in cluster <NUSHPC>.
+</home/svu/dcsliubi> was used as the home directory.
+</home/svu/dcsliubi/pe/MPSA/hms> was used as the working directory.
+Started at Fri Dec 30 15:26:48 2011
+Results reported at Fri Dec 30 15:43:29 2011
+
+Your job looked like:
+
+------------------------------------------------------------
+# LSBATCH: User input
+./hmsMPSA2 7
+------------------------------------------------------------
+
+TERM_OWNER: job killed by owner.
+Exited with exit code 130.
+
+Resource usage summary:
+
+    CPU time   :   1015.62 sec.
+    Max Memory :         7 MB
+    Max Swap   :       378 MB
+
+    Max Processes  :         9
+    Max Threads    :         9
+
+The output (if any) follows:
+
